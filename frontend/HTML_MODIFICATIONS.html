@@ -1,0 +1,221 @@
+<!-- ============================================================
+  REWEAR HTML MODIFICATIONS GUIDE
+  These are the ONLY changes needed in your existing HTML files.
+  Search for the original text and add the data-* attributes shown.
+  Do NOT rewrite any HTML — just add attributes and script tags.
+  ============================================================ -->
+
+
+<!-- ══════════════════════════════════════════════════════════
+  1. ALL PAGES — Add scripts at the bottom of <body>
+     (before your existing </body> closing tag)
+  ══════════════════════════════════════════════════════════ -->
+
+<!-- index.html — add these 3 scripts -->
+<script src="js/api.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/items.js"></script>
+
+<!-- dashboard.html — add these 2 scripts -->
+<script src="js/api.js"></script>
+<script src="js/dashboard.js"></script>
+
+<!-- add-item.html — add these 2 scripts -->
+<script src="js/api.js"></script>
+<script src="js/add-item.js"></script>
+
+<!-- admin-panel.html — add these 2 scripts -->
+<script src="js/api.js"></script>
+<script src="js/admin.js"></script>
+
+<!-- about.html & contact.html — add this 1 script (for nav auth state) -->
+<script src="js/api.js"></script>
+
+
+<!-- ══════════════════════════════════════════════════════════
+  2. index.html — Nav Login/Signup buttons
+     Find the nav Login and Sign Up anchor tags and add data attrs
+  ══════════════════════════════════════════════════════════ -->
+
+<!-- BEFORE (your current HTML): -->
+<a href="#">Login</a>
+<a href="#">Sign Up</a>
+
+<!-- AFTER (add class names only): -->
+<a href="#" class="nav-login-btn">Login</a>
+<a href="#" class="nav-signup-btn">Sign Up</a>
+
+
+<!-- ══════════════════════════════════════════════════════════
+  3. index.html — Login Modal form
+     Find your existing login modal and add id + data attributes
+  ══════════════════════════════════════════════════════════ -->
+
+<!-- Add id="loginModal" to the modal wrapper div -->
+<!-- Add id="loginForm" to the <form> inside the modal -->
+<!-- Add data-switch-signup to the "Sign up" link at the bottom -->
+
+<!-- Example (your modal structure, just add the ids): -->
+<div id="loginModal" class="modal"> <!-- ADD id="loginModal" -->
+  <div class="modal-content">
+    <form id="loginForm"> <!-- ADD id="loginForm" -->
+      <!-- your existing inputs stay exactly the same -->
+      <input type="email" placeholder="Email">
+      <input type="password" placeholder="Password">
+      <button type="submit">Sign In</button>
+    </form>
+    <p>Don't have an account?
+      <a href="#" data-switch-signup>Sign up</a> <!-- ADD data-switch-signup -->
+    </p>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════════════════
+  4. index.html — Signup Modal form
+  ══════════════════════════════════════════════════════════ -->
+
+<div id="signupModal" class="modal"> <!-- ADD id="signupModal" -->
+  <div class="modal-content">
+    <form id="signupForm"> <!-- ADD id="signupForm" -->
+      <input type="text" name="firstName" placeholder="First Name"> <!-- ADD name="firstName" -->
+      <input type="text" name="lastName" placeholder="Last Name">   <!-- ADD name="lastName" -->
+      <input type="email" placeholder="Email">
+      <input type="password" placeholder="Password">
+      <input type="checkbox"> I agree to Terms
+      <button type="submit">Create Account</button>
+    </form>
+    <p>Already have an account?
+      <a href="#" data-switch-login>Sign in</a> <!-- ADD data-switch-login -->
+    </p>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════════════════
+  5. index.html — Featured Items section
+     Find the div containing your hardcoded item cards
+     Replace the static inner content with a single container div
+  ══════════════════════════════════════════════════════════ -->
+
+<!-- BEFORE: your static item cards -->
+<div class="featured-items">
+  <div class="item-card">...</div>
+  <div class="item-card">...</div>
+  ...
+</div>
+
+<!-- AFTER: empty container — JS will populate it -->
+<div class="featured-items" data-featured-items>
+  <!-- Items loaded dynamically from API -->
+</div>
+
+
+<!-- ══════════════════════════════════════════════════════════
+  6. dashboard.html — Replace hardcoded user values
+     Add data-* attributes to the elements showing user data
+  ══════════════════════════════════════════════════════════ -->
+
+<!-- User name heading -->
+<h1 data-user-fullname>Welcome back, Sarah!</h1>
+
+<!-- Member since / rating line -->
+<p data-member-since>Member since March 2023 • 4.9 ⭐ rating</p>
+
+<!-- Stats numbers -->
+<div class="stat-value" data-user-points>245</div>
+<div class="stat-value" data-user-items-count>12</div>
+<div class="stat-value" data-user-exchanges-count>28</div>
+
+<!-- User avatar images -->
+<img data-user-avatar src="assets/women1.jpg" alt="User Avatar">
+
+<!-- Tab content containers — replace inner content with data attrs -->
+<div class="tab-content" data-my-items>
+  <!-- JS will render real items here -->
+</div>
+
+<div class="tab-content" data-my-exchanges>
+  <!-- JS will render real orders here -->
+</div>
+
+<div class="tab-content" data-my-wishlist>
+  <!-- JS will render real wishlist here -->
+</div>
+
+<!-- Profile edit form — add data attr and name attributes to inputs -->
+<form data-profile-form>
+  <input type="text" name="firstName" value="Sarah Martinez">
+  <input type="text" name="lastName" value="">
+  <input type="email" value="sarah@email.com">
+  <textarea name="bio">...</textarea>
+  <input type="text" name="location" value="San Francisco, CA">
+  <input type="text" name="preferredSizes" value="Tops: M">
+  <button type="submit">Edit Profile</button>
+</form>
+
+
+<!-- ══════════════════════════════════════════════════════════
+  7. add-item.html — Add data attributes to form elements
+  ══════════════════════════════════════════════════════════ -->
+
+<!-- Main form -->
+<form data-add-item-form id="addItemForm">
+
+  <!-- Photo section -->
+  <div class="photo-grid" data-photo-grid>
+    <button type="button" class="add-photo-btn" data-add-photo>Add Photo</button>
+  </div>
+
+  <!-- Inputs — add name attributes -->
+  <input type="text" name="title" placeholder="Be specific and descriptive">
+  <input type="text" name="brand" placeholder="Brand">
+  <select name="category">...</select>
+  <textarea name="description">...</textarea>
+  <select name="size">...</select>
+  <select name="condition">...</select>
+  <input type="number" name="points" min="10" max="500">
+  <select name="exchangeType">...</select>
+  <textarea name="tradePrefs"></textarea>
+
+  <!-- Tags -->
+  <input type="text" class="tag-input" data-tag-input placeholder="Add Tag">
+  <div class="tags-container" data-tag-container></div>
+
+  <!-- Buttons -->
+  <button type="button" data-draft-btn>Save Draft</button>
+  <button type="submit" data-submit-btn>List Item</button>
+</form>
+
+<!-- Points suggestion span -->
+<span data-points-suggestion>Suggested: 35–65 points</span>
+
+
+<!-- ══════════════════════════════════════════════════════════
+  8. admin-panel.html — Add data containers for dynamic content
+  ══════════════════════════════════════════════════════════ -->
+
+<!-- Stats (add to existing stat number elements) -->
+<span data-stat-users>0</span>
+<span data-stat-items>0</span>
+<span data-stat-orders>0</span>
+<span data-stat-completed>0</span>
+
+<!-- Replace static user/item/order lists with empty containers -->
+<div class="users-list" data-admin-users>
+  <!-- JS renders real users here -->
+</div>
+
+<div class="items-list" data-admin-items>
+  <!-- JS renders real listings here -->
+</div>
+
+<div class="orders-list" data-admin-orders>
+  <!-- JS renders real orders here -->
+</div>
+
+
+<!-- ══════════════════════════════════════════════════════════
+  9. ALL PAGES — Logout button (wherever you want to add one)
+  ══════════════════════════════════════════════════════════ -->
+<button data-logout>Logout</button>

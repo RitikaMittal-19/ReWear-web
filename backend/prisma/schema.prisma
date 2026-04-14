@@ -1,0 +1,188 @@
+// ReWear Prisma Schema
+// Database: PostgreSQL (Neon)
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+  
+}
+
+// ─────────────────────────────────────────────────────────
+// ENUMS
+// ─────────────────────────────────────────────────────────
+
+enum Role {
+  USER
+  ADMIN
+}
+
+enum ItemStatus {
+  ACTIVE
+  PENDING_APPROVAL
+  EXCHANGED
+  ARCHIVED
+}
+
+enum ItemCondition {
+  LIKE_NEW
+  EXCELLENT
+  GOOD
+  FAIR
+}
+
+enum ExchangeType {
+  POINTS_ONLY
+  DIRECT_TRADE
+  POINTS_OR_TRADE
+}
+
+enum Category {
+  TOPS
+  BOTTOMS
+  DRESSES
+  OUTERWEAR
+  SHOES
+  ACCESSORIES
+  BAGS
+  ETHNIC
+  WINTERWEAR
+  KIDS
+}
+
+enum Size {
+  XS
+  S
+  M
+  L
+  XL
+  XXL
+  OTHER
+}
+
+enum OrderStatus {
+  REQUESTED
+  ACCEPTED
+  REJECTED
+  COMPLETED
+  CANCELLED
+}
+
+// ─────────────────────────────────────────────────────────
+// MODELS
+// ─────────────────────────────────────────────────────────
+
+model User {
+  id            Int       @id @default(autoincrement())
+  email         String    @unique
+  password      String
+  firstName     String
+  lastName      String
+  bio           String?
+  location      String?
+  avatar        String?   // URL to avatar image
+  points        Int       @default(100) // Starting bonus points
+  role          Role      @default(USER)
+  rating        Float     @default(0)
+  reviewCount   Int       @default(0)
+  preferredSizes String?  // JSON string e.g. "Tops: M, Bottoms: 8"
+  isActive      Boolean   @default(true)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  // Relations
+  listings      Item[]         @relation("UserListings")
+  ordersBuyer   Order[]        @relation("BuyerOrders")
+  ordersSeller  Order[]        @relation("SellerOrders")
+  wishlist      Wishlist[]
+  reviews       Review[]       @relation("ReviewsReceived")
+  reviewsGiven  Review[]       @relation("ReviewsGiven")
+
+  @@index([email])
+  @@index([role])
+}
+
+model Item {
+  id            Int           @id @default(autoincrement())
+  title         String
+  description   String
+  brand         String?
+  category      Category
+  size          Size
+  condition     ItemCondition
+  points        Int
+  exchangeType  ExchangeType  @default(POINTS_ONLY)
+  tradePrefs    String?       // What they'd trade for
+  tags          String[]      // Array of tag strings
+  images        String[]      // Array of image URLs (Cloudinary)
+  status        ItemStatus    @default(ACTIVE)
+  views         Int           @default(0)
+  sellerId      Int
+
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+
+  // Relations
+  seller        User          @relation("UserListings", fields: [sellerId], references: [id], onDelete: Cascade)
+  orders        Order[]
+  wishlistedBy  Wishlist[]
+
+  @@index([sellerId])
+  @@index([category])
+  @@index([status])
+  @@index([points])
+}
+
+model Order {
+  id          Int         @id @default(autoincrement())
+  itemId      Int
+  buyerId     Int
+  sellerId    Int
+  pointsUsed  Int
+  status      OrderStatus @default(REQUESTED)
+  note        String?     // Buyer's note to seller
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+
+  // Relations
+  item        Item        @relation(fields: [itemId], references: [id])
+  buyer       User        @relation("BuyerOrders", fields: [buyerId], references: [id])
+  seller      User        @relation("SellerOrders", fields: [sellerId], references: [id])
+
+  @@index([buyerId])
+  @@index([sellerId])
+  @@index([status])
+}
+
+model Wishlist {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  itemId    Int
+  createdAt DateTime @default(now())
+
+  // Relations
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  item      Item     @relation(fields: [itemId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, itemId]) // Prevent duplicate wishlist entries
+  @@index([userId])
+}
+
+model Review {
+  id          Int      @id @default(autoincrement())
+  rating      Int      // 1–5
+  comment     String?
+  reviewerId  Int
+  revieweeId  Int
+  orderId     Int?
+  createdAt   DateTime @default(now())
+
+  // Relations
+  reviewer    User     @relation("ReviewsGiven", fields: [reviewerId], references: [id])
+  reviewee    User     @relation("ReviewsReceived", fields: [revieweeId], references: [id])
+
+  @@index([revieweeId])
+}
