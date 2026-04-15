@@ -60,6 +60,11 @@ app.get("/api/health", (req, res) => {
   res.json({ status: "ok", timestamp: new Date().toISOString(), service: "ReWear API" });
 });
 
+// ─── Root Route ──────────────────────────────────────────────  ← ADD THIS
+app.get("/", (req, res) => {                                     // ← ADD THIS
+  res.json({ message: "ReWear API is running 🌿", docs: "/api/health" }); // ← ADD THIS
+});                                                               // ← ADD THIS
+
 // ─── Routes ──────────────────────────────────────────────────
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
