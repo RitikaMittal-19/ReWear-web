@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // Redirect if not logged in
   if (!Api.isLoggedIn()) {
     Api.showError("Please log in to list an item.");
-    setTimeout(() => (window.location.href = "/Re-Wear-website/index.html"), 1000);
+    setTimeout(() => (window.location.href = "/Re-Wear-website/index.html"), 2000);
     return;
   }
 
@@ -184,7 +184,15 @@ function setupForm() {
     formData.append("size", size.toUpperCase());
     formData.append("condition", condition.toUpperCase().replace(/ /g, "_"));
     formData.append("points", points);
-    formData.append("exchangeType", exchangeType.toUpperCase().replace(/ /g, "_"));
+    let exchangeTypeMapped = "POINTS_ONLY";
+
+    const rawType = form.querySelector("select[name='exchangeType']")?.value;
+
+    if (rawType === "points") exchangeTypeMapped = "POINTS_ONLY";
+    else if (rawType === "trade") exchangeTypeMapped = "DIRECT_TRADE";
+    else if (rawType === "both") exchangeTypeMapped = "POINTS_OR_TRADE";
+
+formData.append("exchangeType", exchangeTypeMapped);
     formData.append("tradePrefs", tradePrefs || "");
 
     tags.forEach((tag) => formData.append("tags", tag));

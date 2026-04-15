@@ -132,53 +132,6 @@ const API_BASE = "http://localhost:5000/api"; // for local dev
 
 Then open your HTML files with VS Code Live Server or any local server.
 
----
-
-## 🔧 HTML Modifications
-
-Open `frontend/HTML_MODIFICATIONS.html` for the full guide.
-
-**Summary of what to add to each page:**
-
-| File | Change |
-|------|--------|
-| `index.html` | Add `id` to modals + forms, `data-featured-items` to item grid, script tags |
-| `dashboard.html` | Add `data-*` attrs to stat numbers, empty tab containers, profile form names |
-| `add-item.html` | Add `name` attrs to all inputs, `data-*` to photo/tag sections |
-| `admin-panel.html` | Empty user/item/order containers with `data-admin-*` attrs |
-| All pages | Add `<script src="js/api.js"></script>` before `</body>` |
-
----
-
-## 🌐 REST API Reference
-
-| Method | Endpoint | Auth | Description |
-|--------|----------|------|-------------|
-| POST | `/api/auth/register` | ❌ | Create account |
-| POST | `/api/auth/login` | ❌ | Login → JWT |
-| GET | `/api/auth/me` | ✅ | Current user |
-| GET | `/api/items` | ❌ | Browse items |
-| POST | `/api/items` | ✅ | Create listing |
-| PUT | `/api/items/:id` | ✅ | Update listing |
-| DELETE | `/api/items/:id` | ✅ | Delete listing |
-| GET | `/api/orders` | ✅ | My orders |
-| POST | `/api/orders` | ✅ | Request item |
-| PATCH | `/api/orders/:id/accept` | ✅ | Accept (seller) |
-| PATCH | `/api/orders/:id/reject` | ✅ | Reject (seller) |
-| PATCH | `/api/orders/:id/complete` | ✅ | Mark complete |
-| GET | `/api/wishlist` | ✅ | My wishlist |
-| POST | `/api/wishlist/:itemId` | ✅ | Add to wishlist |
-| DELETE | `/api/wishlist/:itemId` | ✅ | Remove |
-| GET | `/api/users/:id` | ❌ | Public profile |
-| PUT | `/api/users/me` | ✅ | Update profile |
-| GET | `/api/admin/stats` | 🔒 ADMIN | Platform stats |
-| GET | `/api/admin/users` | 🔒 ADMIN | All users |
-| PATCH | `/api/admin/users/:id` | 🔒 ADMIN | Activate/ban |
-| GET | `/api/admin/items` | 🔒 ADMIN | All listings |
-| PATCH | `/api/admin/items/:id` | 🔒 ADMIN | Archive/restore |
-| GET | `/api/admin/orders` | 🔒 ADMIN | All orders |
-
----
 
 ## 🧪 Postman Testing Guide
 
@@ -272,18 +225,6 @@ const API_BASE = "https://rewear-api.onrender.com/api"; // your Render URL
 
 Then push to GitHub — GitHub Pages auto-deploys. ✅
 
----
-
-## 🔐 Default Credentials (after seed)
-
-| Role | Email | Password |
-|------|-------|----------|
-| Admin | admin@rewear.com | admin123 |
-| User | sarah@example.com | password123 |
-
-⚠️ **Change these immediately in production.**
-
----
 
 ## 🗄️ Database Models
 
