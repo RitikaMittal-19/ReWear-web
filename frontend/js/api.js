@@ -4,7 +4,7 @@
 // BEFORE other JS files.
 // ============================================================
 
-const API_BASE = "https://rewear-backend-9coe.onrender.com";
+const API_BASE = "https://rewear-backend-9coe.onrender.com/api";
 // ↑ Change this to your deployed Render URL.
 // For local dev: use "http://localhost:5000/api"
 
